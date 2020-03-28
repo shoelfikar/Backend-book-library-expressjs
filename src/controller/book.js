@@ -2,42 +2,19 @@ const bookModel = require('../models/book');
 const helpers = require('../helpers/helpers');
 const conn = require('../configs/db');
 module.exports = {
-    // getBooks: (req,res)=> {
-    //     const search = req.query.search;
-    //     const page = req.query.page
-    //     const sort = req.query.sort
-    //    bookModel.getBooks(search,sort)
-    //    .then((result)=> {
-    //        res.send(result)
-    //    })
-    //    .catch((response)=> {
-    //        console.log(response)
-    //    })
-    //      conn.query("SELECT COUNT(*) as total FROM book_data",(err,result)=> {
-    //          const total = result[0].total
-    //          if(page > 0) {
-    //              bookModel.getPage(page,total)
-    //              .then(result => {
-    //                  helpers.response(res,result, 200)
-    //              })
-    //              .catch((err)=> {
-    //                  helpers.response(res, {}, res.status,err)
-    //              })
-    //          }
-    //      })
-    // },
-    getData: (req,res)=> {
+    getBook: (req,res)=> {
         const page = req.query.page
+        const search = req.query.search
         !page
         ? bookModel
-            .getData()
+            .getBook(search)
             .then((result)=> {
                 helpers.response(res,result, 200)
             })
             .catch(err => {
                 helpers.response(res,{}, res.status, err)
             })
-        : conn.query("SELECT COUNT(*) as total FROM book_data", (err, result)=> {
+         :conn.query("SELECT COUNT(*) as total FROM book_data", (err, result)=> {
             const total = result[0].total;
             if(page > 0 ) {
                 bookModel.getPage(page, total)
@@ -47,6 +24,8 @@ module.exports = {
                 .catch((err)=> {
                     helpers.response(res, {}, res.status,err)
                 })
+            }else {
+                helpers.response(res, {}, res.status,500)
             }
         })
     },
@@ -54,21 +33,20 @@ module.exports = {
         const idBook = req.params.id_book
         bookModel.bookDetail(idBook)
         .then((result)=>{
-            res.send(result);
+            helpers.response(res,result, 200);
         })
         .catch((response)=>{
             console.log(response);
         })
     },
     sortBook : (req,res)=> {
-        // const author = req.params.myAuthor
-        bookModel.sortBook()
+        const sort = req.query.sort
+        bookModel.sortBook(sort)
         .then((result)=> {
-            res.send(result);
-            // console.log(result)
+            helpers.response(res,result, 200);
         })
         .catch((response)=> {
-            console.log(response);
+            helpers.response(res, {}, res.status,err)
         })
     },
     insertBook : (req,res)=> {

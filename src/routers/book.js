@@ -4,10 +4,9 @@ const dataController = require('../controller/book');
 
 
 Router
-    // .get('/',dataController.getBooks)
-    .get('/',dataController.getData)
+    .get('/',dataController.getBook)
     .get('/:id_book',dataController.bookDetail)
-    .get('/author', dataController.sortBook)
+    .get("/sort", dataController.sortBook)
     .post('/',dataController.insertBook)
     .patch('/:id_book', dataController.updateBook)
     .delete('/:id_book', dataController.deleteBook)
@@ -15,5 +14,4 @@ Router
 
 
 
-// Router.get('/author', dataController.sortBook)
 module.exports = Router;

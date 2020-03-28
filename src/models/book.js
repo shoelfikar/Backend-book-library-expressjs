@@ -1,52 +1,28 @@
 const connection = require('../configs/db');
+const helpers = require('../helpers/helpers')
 
 module.exports = {
-    // getBooks: (search,sort,page)=> {
-    //     return new Promise((resolve,reject)=>{
-    //         if(search){
-    //             connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category WHERE book_title LIKE ? OR description LIKE ?",[`%${search}%`,`%${search}%`], (err,result)=>{
-    //                 if(!err){
-    //                     resolve(result)
-    //                 }else{
-    //                     reject(new Error(err))
-    //                 }
-    //             })
-    //         }else if(page) {
-    //             connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category ORDER BY book_id DESC  LIMIT  0,10", (err,result)=> {
-    //                 if(!err) {
-    //                     resolve(result)
-    //                 }else {
-    //                     reject(new Error(err))
-    //                 }
-    //             })
-    //         }else if(sort) {
-    //             connection.query("SELECT * FROM book_data ORDER BY " + sort + ' DESC',(err,result)=> {
-    //                 if(!err){
-    //                     resolve(result)
-    //                 }else {
-    //                     reject(new Error(err))
-    //                 }
-    //             })
-    //         }else{
-    //             connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category WHERE book_data.book_id", (err,result)=>{
-    //                 if(!err){
-    //                     resolve(result)
-    //                 }else{
-    //                     reject(new Error(err))
-    //                 }
-    //             })
-    //         }
-    //     })
-    // },
-    getData: () => {
+    getBook: (search) => {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM book_data", (err, result)=> {
-                if(!err) {
-                    resolve(result);
-                }else {
-                    reject(new Error(err))
-                }
-            })
+            if(search) {
+
+                connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category WHERE book_title LIKE ? OR description LIKE ?",[`%${search}%`,`%${search}%`], (err, result)=> {
+                    if(!err) {
+                        resolve(result)  
+                    }else {
+                        reject(new Error(err))
+                    }
+                })
+            }else {
+                connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category WHERE book_data.book_id", (err,result)=>{
+                    if(!err){
+                        resolve(result)
+                    }else{
+                        reject(new Error(err))
+
+                    }
+                })
+            }
         })
     },
     bookDetail: (id_book)=> {
@@ -60,9 +36,9 @@ module.exports = {
                 })
         })
     },
-    sortBook : ()=> {
+    sortBook : (sort)=> {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT book_data.*, category.name_category FROM book_data INNER JOIN category on book_data.id_category = category.id_category WHERE book_data.book_id ORDER BY author", (err,result)=>{
+            connection.query("SELECT * FROM book_data ORDER BY " + sort + "DESC", (err,result)=>{
                 if(!err){
                     resolve(result)
                 }else{
@@ -108,14 +84,16 @@ module.exports = {
         const dataPage = 5;
         const totalPage = total / dataPage;
         const firstDate = dataPage * page - dataPage;
-
         return new Promise((resolve,reject)=> {
             connection.query("SELECT * FROM book_data ORDER BY book_id ASC LIMIT ?, ?",[firstDate, dataPage], (err,result)=> {
                 if(!err){
                     const thisPage = Math.ceil(totalPage);
-                    if(page <= thisPage){
-                        resolve([thisPage, `Current Page: ${page}`,result])
-                    }
+                    resolve([thisPage,`Total Data : ${total}`,`Current Page: ${page}`,result])
+                    // if(page <= thisPage){
+                       
+                    // }else if(page > thisPage){
+                    //     reject(new Error(err))
+                    // }
                 }else {
                     reject(new Error(err))
                 }

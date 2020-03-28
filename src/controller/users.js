@@ -63,5 +63,53 @@ module.exports = {
                 return helpers.response(res,null,403, 'Your password Wrong!')
             }
         })
+    },
+    userDetail: (req, res) => {
+        const idUser = req.params.id_user
+        usersModel.userDetail(idUser)
+        .then((result)=> {
+            helpers.response(res,result,200);
+        })
+        .catch((err)=> {
+            helpers.response(res,result,403,err)
+        })
+    },
+    updateUser: (req,res) => {
+        const idUser = req.params.id_user
+        const {
+            fullname,
+            email,
+            phone_number,
+            address,
+            id_card,
+            username
+        } = req.body
+        const data = {
+            fullname,
+            email,
+            phone_number,
+            address,
+            id_card,
+            username
+        }
+        usersModel.updateUser(idUser,data)
+        .then((resultUser)=> {
+            const result = resultUser
+            helpers.response(res,result,200,[idUser,data])
+        })
+        .catch((error)=> {
+            helpers.response(res,results,500,error)
+        })
+    },
+    deleteUser: (req,res)=> {
+        const id_user = req.params.id_user
+        usersModel.deleteUser(id_user)
+        .then((resultUser)=> {
+            const result = resultUser
+            helpers.response(res,result,200)
+        })
+        .catch((error)=> {
+            helpers.response(res,result,500,error)
+        })
     }
 }
