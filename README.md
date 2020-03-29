@@ -31,13 +31,13 @@
 \---src
 |    \---Configs
 |    |   +---db.js            
-|    \---Controllers
-|    |   +---helpers
-|    \---helpers
+|    \---controllers
 |    |   +---books.js
 |    |   +---category.js
 |    |   +---loanbooks.js
 |    |   +---user.js
+|    \---helpers
+|    |   +---helpers.js
 |    \---models
 |    |   +---books.js
 |    |   +---category.js
@@ -46,6 +46,7 @@
 |    \---routers
 |    |   +---books.js
 |    |   +---category.js
+|    |   +---index.js
 |    |   +---loanbooks.js
 |    |   +---user.js
 +---app.js
