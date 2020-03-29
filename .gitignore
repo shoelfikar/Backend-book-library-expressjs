@@ -1,4 +1,5 @@
 .env
-node_module/
+node_modules/
+src/configs/
 materi.txt
 db.js
