@@ -102,7 +102,7 @@ module.exports = {
             helpers.response(res,result,200,[idUser,data])
         })
         .catch((err)=> {
-            helpers.response(res,results,500,err)
+            helpers.response(res,results,404,err)
         })
     },
     deleteUser: (req,res)=> {

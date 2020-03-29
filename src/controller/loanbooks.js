@@ -16,10 +16,10 @@ module.exports = {
         }
         loanModel.insertLoan(data)
         .then((result)=> {
-            return helper.response(res,result,200)
+            helper.response(res,result,200)
         })
         .catch((err)=> {
-            return helper.response(res,result,404,err)
+            helper.response(res,result,404,err)
         })
     },
     updateLoan: (req,res)=> {
@@ -38,29 +38,29 @@ module.exports = {
         }
         loanModel.updateLoan(idLoan,data)
         .then((result)=> {
-            return helper.response(res,result,200,[idLoan,data])
+            helper.response(res,result,200,[idLoan,data])
         })
         .catch((err)=> {
-            return helper.response(res,result,404,err)
+            helper.response(res,result,404,err)
         })
     },
     getLoan: (erq,res)=> {
         loanModel.getLoan()
         .then((result)=> {
-            return helper.response(res,result,200)
+            helper.response(res,result,200)
         })
         .catch((err)=> {
-            return helper.response(res,result,404,err)
+            helper.response(res,result,404,err)
         })
     },
     detailLoan: (req,res)=> {
         const idLoan = req.params.id_loan
         loanModel.detailLoan(idLoan)
         .then((result)=> {
-            return helper.response(res,result,200)
+             helper.response(res,result,200)
         })
         .catch((err)=> {
-            return helper.response(res,result,404,err)
+            helper.response(res,result,404,err)
         })
     },
     deleteLoan: (req,res)=> {
@@ -68,10 +68,10 @@ module.exports = {
         loanModel.deleteLoan(id_loan)
         .then((resultLoan)=> {
             const result = resultLoan
-            return helper.response(res,result,200)
+            helper.response(res,result,200)
         })
         .catch((err)=>{
-            return helper.response(res,result,404,err)
+            helper.response(res,result,404,err)
         })
     },
     

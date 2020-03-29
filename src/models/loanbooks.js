@@ -47,7 +47,7 @@ module.exports = {
     },
     detailLoan: (id_loan)=> {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM loan_books WHERE id_loan = ?", id_loan,(err,result)=> {
+            connection.query("SELECT loan_books.*, pengguna.fullname,pengguna.phone_number,pengguna.address,pengguna.id_card, book_data.isbn,book_data.book_title,book_data.author FROM loan_books INNER JOIN pengguna ON loan_books.id_user = pengguna.id_user INNER JOIN book_data ON loan_books.book_id = book_data.book_id  WHERE loan_books.id_loan  = ?", id_loan,(err,result)=> {
                 if(!err){
                     resolve(result)
                 }else{

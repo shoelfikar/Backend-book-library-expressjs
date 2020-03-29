@@ -20,5 +20,29 @@ module.exports = {
         .catch((err)=> {
             helpers.response(res,result,403,err)
         })
+    },
+    insertCategory: (req,res)=> {
+        const {name_category} = req.body
+        const data = {name_category}
+        categoryModel.insertCategory(data)
+        .then((result)=> {
+            helpers.response(res,result,200)
+        })
+        .catch((err)=> {
+            helpers.response(res,result,403,err)
+        })
+    },
+    updateCategory: (req,res)=> {
+        const idCategory = req.params.id_category
+        const {name_category} = req.body
+        const data = {name_category}
+        categoryModel.updateCategory(idCategory,data)
+        .then((resultCategory)=> {
+            const result = resultCategory
+            helpers.response(res,result,200,[idCategory,data])
+        })
+        .catch((err)=> {
+            helpers.response(res,result,404,err)
+        })
     }
 }

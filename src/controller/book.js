@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-undef
 const bookModel = require('../models/book');
 const helpers = require('../helpers/helpers');
 const conn = require('../configs/db');

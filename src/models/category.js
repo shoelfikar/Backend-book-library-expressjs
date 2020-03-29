@@ -22,5 +22,28 @@ module.exports = {
                 }
             })
         })
+    },
+    insertCategory: (data) => {
+        return new Promise((resolve,reject)=>{
+            connection.query("INSERT INTO category SET ?",data,(err,result)=> {
+                if(!err) {
+                    resolve(result)
+                }else{
+                    reject(new Error(err))
+                }
+
+            })
+        })
+    },
+    updateCategory: (id_category,data)=> {
+        return new Promise((resolve,reject)=> {
+            connection.query("UPDATE category SET ? WHERE id_category =?",[data,id_category],(err,result)=> {
+                if(!err){
+                    resolve(result)
+                }else{
+                    reject(new Error(err))
+                }
+            })
+        })
     }
 }
