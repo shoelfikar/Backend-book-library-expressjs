@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 const usersModel = require('../models/users');
 const helpers = require('../helpers/helpers');
 const {genSaltSync,compareSync,hashSync} = require('bcrypt')

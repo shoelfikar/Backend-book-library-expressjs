@@ -1,4 +1,5 @@
 const connection = require('../configs/db');
+// eslint-disable-next-line no-unused-vars
 const helpers = require('../helpers/helpers')
 
 module.exports = {
