@@ -1,0 +1,4 @@
+.env
+node_module/
+materi.txt
+db.js

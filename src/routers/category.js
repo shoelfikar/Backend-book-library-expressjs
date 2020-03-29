@@ -4,7 +4,8 @@ const categoryController = require('../controller/category')
 
 
 Router
-    .
+    .get('/',categoryController.getCategory)
+    .get('/:id_user', categoryController.categoryDetail)
 
 
 

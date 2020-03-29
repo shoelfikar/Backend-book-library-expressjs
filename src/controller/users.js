@@ -68,10 +68,10 @@ module.exports = {
         const idUser = req.params.id_user
         usersModel.userDetail(idUser)
         .then((result)=> {
-            helpers.response(res,result,200);
+            return helpers.response(res,result,200);
         })
         .catch((err)=> {
-            helpers.response(res,result,403,err)
+            return helpers.response(res,result,403,err)
         })
     },
     updateUser: (req,res) => {
@@ -95,10 +95,10 @@ module.exports = {
         usersModel.updateUser(idUser,data)
         .then((resultUser)=> {
             const result = resultUser
-            helpers.response(res,result,200,[idUser,data])
+            return helpers.response(res,result,200,[idUser,data])
         })
         .catch((error)=> {
-            helpers.response(res,results,500,error)
+            return helpers.response(res,results,500,error)
         })
     },
     deleteUser: (req,res)=> {

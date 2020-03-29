@@ -89,11 +89,6 @@ module.exports = {
                 if(!err){
                     const thisPage = Math.ceil(totalPage);
                     resolve([thisPage,`Total Data : ${total}`,`Current Page: ${page}`,result])
-                    // if(page <= thisPage){
-                       
-                    // }else if(page > thisPage){
-                    //     reject(new Error(err))
-                    // }
                 }else {
                     reject(new Error(err))
                 }

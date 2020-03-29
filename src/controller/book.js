@@ -33,20 +33,20 @@ module.exports = {
         const idBook = req.params.id_book
         bookModel.bookDetail(idBook)
         .then((result)=>{
-            helpers.response(res,result, 200);
+            helpers.response(res,result,);
         })
         .catch((response)=>{
             console.log(response);
         })
     },
     sortBook : (req,res)=> {
-        const sort = req.query.sort
+        const sort = req.params.sort
         bookModel.sortBook(sort)
         .then((result)=> {
             helpers.response(res,result, 200);
         })
-        .catch((response)=> {
-            helpers.response(res, {}, res.status,err)
+        .catch((err)=> {
+           return helpers.response(res, {}, res.status,404,err)
         })
     },
     insertBook : (req,res)=> {
