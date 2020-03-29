@@ -24,6 +24,31 @@
 - [X] Mysql
 - [X] Nodemon
 
+## Structur Folder
+```
+\---src
+|    \---Configs
+|    |   +---db.js            
+|    \---Controllers
+|    |   +---helpers
+|    \---helpers
+|    |   +---books.js
+|    |   +---category.js
+|    |   +---loanbooks.js
+|    |   +---user.js
+|    \---models
+|    |   +---books.js
+|    |   +---category.js
+|    |   +---loanbooks.js
+|    |   +---user.js
+|    \---routers
+|    |   +---books.js
+|    |   +---category.js
+|    |   +---loanbooks.js
+|    |   +---user.js
++---app.js
+```
+
 ### About Project 
 
   Membuat REST API untuk perpustakaan online menggunakan express js
