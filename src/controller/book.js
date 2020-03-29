@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 const bookModel = require('../models/book');
 const helpers = require('../helpers/helpers');
 const conn = require('../configs/db');
@@ -8,7 +9,8 @@ module.exports = {
         !page
         ? bookModel
             .getBook(search)
-            .then((result)=> {
+            .then((resultBook)=> {
+                const result = resultBook
                 helpers.response(res,result, 200)
             })
             .catch(err => {
@@ -16,17 +18,17 @@ module.exports = {
             })
          :conn.query("SELECT COUNT(*) as total FROM book_data", (err, result)=> {
             const total = result[0].total;
-            if(page > 0 ) {
-                bookModel.getPage(page, total)
-                .then((result)=> {
+            bookModel.getPage(page, total)
+            .then((result)=> {
+                if(page > 0 ) {
                     helpers.response(res,result, 200)
-                })
-                .catch((err)=> {
-                    helpers.response(res, {}, res.status,err)
-                })
-            }else {
-                helpers.response(res, {}, res.status,500)
-            }
+                }else {
+                    helpers.response(res, {}, res.status,404)
+                }
+            })
+            .catch((err)=> {
+                helpers.response(res, {}, res.status,err,404)
+            })
         })
     },
     bookDetail : (req,res)=> {
@@ -40,13 +42,13 @@ module.exports = {
         })
     },
     sortBook : (req,res)=> {
-        const sort = req.params.sort
+        const sort = req.query.sort
         bookModel.sortBook(sort)
         .then((result)=> {
             helpers.response(res,result, 200);
         })
         .catch((err)=> {
-           return helpers.response(res, {}, res.status,404,err)
+           helpers.response(res, {}, res.status,404,err)
         })
     },
     insertBook : (req,res)=> {
@@ -70,10 +72,10 @@ module.exports = {
         }
         bookModel.insertBook(data)
         .then((result)=> {
-            res.send(result);
+            helpers.response(res,result, 200);
         })
-        .catch((response)=> {
-            console.log(response);
+        .catch((err)=> {
+            helpers.response(res, {}, res.status,404,err)
         })
     },
     updateBook : (req,res)=> {

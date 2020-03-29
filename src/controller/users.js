@@ -37,7 +37,7 @@ module.exports = {
         data.password = hashSync(data.password,salt)
         usersModel.insertUsers(data)
         .then((result)=> {
-            res.send(result)
+            helpers.response(res,result,200);
         })
         .catch(err => console.log(err))
     },
@@ -58,20 +58,23 @@ module.exports = {
             }
             const results = compareSync(data.password,result.password)
             if(results) {
-                return helpers.response(res,result,200, 'Login Successfully')
+                helpers.response(res,result,200, 'Login Successfully')
             }else {
-                return helpers.response(res,null,403, 'Your password Wrong!')
+                helpers.response(res,null,403, 'Your password Wrong!')
             }
+        })
+        .catch((err)=> {
+            helpers.response(res,err,403, 'Failed Login!')
         })
     },
     userDetail: (req, res) => {
         const idUser = req.params.id_user
         usersModel.userDetail(idUser)
         .then((result)=> {
-            return helpers.response(res,result,200);
+            helpers.response(res,result,200);
         })
         .catch((err)=> {
-            return helpers.response(res,result,403,err)
+            helpers.response(res,result,403,err)
         })
     },
     updateUser: (req,res) => {
@@ -95,10 +98,10 @@ module.exports = {
         usersModel.updateUser(idUser,data)
         .then((resultUser)=> {
             const result = resultUser
-            return helpers.response(res,result,200,[idUser,data])
+            helpers.response(res,result,200,[idUser,data])
         })
-        .catch((error)=> {
-            return helpers.response(res,results,500,error)
+        .catch((err)=> {
+            helpers.response(res,results,500,err)
         })
     },
     deleteUser: (req,res)=> {
@@ -108,8 +111,8 @@ module.exports = {
             const result = resultUser
             helpers.response(res,result,200)
         })
-        .catch((error)=> {
-            helpers.response(res,result,500,error)
+        .catch((err)=> {
+            helpers.response(res,result,403,err)
         })
     }
 }
