@@ -1,5 +1,5 @@
 # book-library
-
+---
 
 
 ![abcd](https://img.shields.io/badge/Code%20Style-Standard-green) ![abcgd](https://img.shields.io/badge/Dependencies-Express-brightgreen)
@@ -27,3 +27,9 @@
 ### About Project 
 
   Membuat REST API untuk perpustakaan online menggunakan express js
+
+
+
+
+---
+Copyright © 2020 [Sulfikardi](https://github.com/shoelfikar/)
