@@ -11,4 +11,7 @@ Router
   .use('/user', user)
   .use('/category',category)
   .use('/borrowbooks',loanBooks)
+  .get('/', function (req, res) {
+    throw new Error('BROKEN',res) 
+  })
 module.exports = Router;

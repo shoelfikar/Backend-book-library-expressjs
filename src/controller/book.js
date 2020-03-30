@@ -6,7 +6,7 @@ module.exports = {
         const page = req.query.page
         const search = req.query.search
         !page
-        ? bookModel
+         ?bookModel
             .getBook(search)
             .then((resultBook)=> {
                 const result = resultBook
@@ -99,7 +99,7 @@ module.exports = {
         }
         bookModel.updateBook(idBook,data)
         .then((result)=> {
-            res.send(result);
+            helpers.response(res,result, 200);
         })
         .catch(err => console.log(err));
     },
@@ -107,7 +107,7 @@ module.exports = {
        const idBook = req.params.id_book
        bookModel.deleteBook(idBook)
        .then((result)=> {
-           res.send(result);
+            helpers.response(res,result, 200);
        })
        .catch(err => console.log(err));
     }

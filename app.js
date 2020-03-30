@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 app.use(cors())
 const Router = require('./src/routers/index');
 app.use('/',Router);
+
 // app.get('/author',Router)
 app.listen(port, ()=>{
   console.log(`App Listen post ${port}`);
