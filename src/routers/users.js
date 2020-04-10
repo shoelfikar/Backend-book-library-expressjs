@@ -14,6 +14,7 @@ Router
     .get('/:id_user',usersController.userDetail)
     .patch('/:id_user',usersController.updateUser)
     .delete('/:id_user',usersController.deleteUser)
+    .post('/verify',usersController.verifyEmail)
 
 
 

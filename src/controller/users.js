@@ -1,6 +1,8 @@
 // eslint-disable-next-line no-undef
+const jwt = require('jsonwebtoken')
 const usersModel = require('../models/users');
 const helpers = require('../helpers/helpers');
+const nodeMailer = require('nodemailer')
 const {genSaltSync,compareSync,hashSync} = require('bcrypt')
 
 module.exports = {
@@ -32,7 +34,8 @@ module.exports = {
             id_card,
             type,
             username,
-            password
+            password,
+            token
         }
         const salt = genSaltSync(10)
         data.password = hashSync(data.password,salt)
@@ -55,18 +58,32 @@ module.exports = {
         .then(result => {
             const data = {
                 email,
-                password
+                password,
             }
             const results = compareSync(data.password,result.password)
+            let tokenKu = result.token
+            tokenKu = jwt.sign({email: email}, process.env.SECRET_KEY)
             if(results) {
-                helpers.response(res,result,200, 'Login Successfully')
+                // result.password = undefined
+                result.token = undefined
+                return res.json({
+                    token: tokenKu,
+                    result: result
+                })
+                // tokenKu
+                // console.log(tokenKu)
+                // helpers.response(res,result,200,'Login Successfully',tokenKu)
             }else {
                 helpers.response(res,null,403, 'Your password Wrong!')
             }
+            
         })
         .catch((err)=> {
             helpers.response(res,err,403, 'Failed Login!')
         })
+        // const token = jwt.sign({email: email}, process.env.SECRET_KEY)
+        // console.log(token)
+        // result.token = token
     },
     userDetail: (req, res) => {
         const idUser = req.params.id_user
@@ -114,6 +131,32 @@ module.exports = {
         })
         .catch((err)=> {
             helpers.response(res,result,403,err)
+        })
+    },
+    verifyEmail: (req,res) => {
+        const activetoken = req.headers['x-token']
+        const tokenactive = jwt.verify(activetoken,'library')
+        const transporter = nodeMailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            }
+        })
+
+        const mailOption = {
+            from: 'jaguchiuchiha@gmail.com',
+            to: tokenactive.email,
+            subject: subject,
+            text: 'Success'
+        }
+
+        transporter.sendMail(mailOption, (err)=>{
+            if(err){
+                res.send('email failed')
+            }else{
+                helpers.response(res,result,200, err)
+            }
         })
     }
 }

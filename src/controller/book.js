@@ -1,15 +1,21 @@
 const bookModel = require('../models/book');
 const helpers = require('../helpers/helpers');
 const conn = require('../configs/db');
+require('dotenv').config()
+const redis = require('redis');
+const client = redis.createClient(process.env.PORT_REDIS)
+
 module.exports = {
     getBook: (req,res)=> {
         const page = req.query.page
         const search = req.query.search
+        
         !page
          ?bookModel
             .getBook(search)
-            .then((resultBook)=> {
-                const result = resultBook
+            .then((result)=> {
+                // const result = resultBook
+                client.setex('getallbooks',3600,JSON.stringify(result))
                 helpers.response(res,result, 200)
             })
             .catch(err => {
@@ -34,16 +40,18 @@ module.exports = {
         const idBook = req.params.id_book
         bookModel.bookDetail(idBook)
         .then((result)=>{
-            helpers.response(res,result,);
+            helpers.response(res,result,200);
         })
         .catch((response)=>{
             console.log(response);
         })
     },
     sortBook : (req,res)=> {
+        
         const sort = req.query.sort
         bookModel.sortBook(sort)
-        .then((result)=> {
+        .then((resultBook)=> {
+            const result = resultBook
             helpers.response(res,result, 200);
         })
         .catch((err)=> {
@@ -56,6 +64,7 @@ module.exports = {
             book_title,
             author,
             description,
+            // image,
             book_status,
             id_category,
             publisher
@@ -65,6 +74,7 @@ module.exports = {
             book_title,
             author,
             description,
+            image: `http://localhost:8000/uploads/${req.file.filename}`,
             book_status,
             id_category,
             publisher

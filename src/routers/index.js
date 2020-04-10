@@ -7,7 +7,6 @@ const loanBooks = require('./loanbooks')
 const Router = express.Router();
 Router
   .use('/library', book)
-  // .use('/author', book)
   .use('/user', user)
   .use('/category',category)
   .use('/borrowbooks',loanBooks)

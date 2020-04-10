@@ -1,6 +1,4 @@
 .env
 node_modules
-src/configs/
 materi.txt
-db.js
 .eslintrc.json
