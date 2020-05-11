@@ -14,19 +14,32 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
+const fileFilter = (req, file, cb) => {
+    const allowTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    if (!allowTypes.includes(file.mimetype)) {
+        cb({message: 'only image allowed!'})
+    } else {
+        cb(null, true)
+    }
+}
 
 const upload = multer({
-    storage
+    storage : storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+  
 })
 
 
 Router
-    .get('/',redisHelper.cacheGetAllBooks, dataController.getBook)
+    .get('/',dataController.getBook)
     .get('/:id_book',dataController.bookDetail)
     .get('/', dataController.sortBook)
-    .post('/',upload.single('image'),redisHelper.clearGetAllBooks,dataController.insertBook)
-    .patch('/:id_book',redisHelper.clearGetAllBooks, dataController.updateBook)
-    .delete('/:id_book',redisHelper.clearGetAllBooks, dataController.deleteBook)
+    .post('/',upload.single('image'),dataController.insertBook)
+    .patch('/:id_book',dataController.updateBook)
+    .delete('/:id_book',dataController.deleteBook)
 
 
 

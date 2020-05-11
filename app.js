@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(cors())
 app.use(morgan('combined'))
 const Router = require('./src/routers/index');
-app.use('/',Router);
+app.use('/api/v1/',Router);
 app.use('/uploads',express.static('./uploads'))
 
 // app.get('/author',Router)

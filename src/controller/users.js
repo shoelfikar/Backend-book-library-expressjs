@@ -4,6 +4,7 @@ const usersModel = require('../models/users');
 const helpers = require('../helpers/helpers');
 const nodeMailer = require('nodemailer')
 const {genSaltSync,compareSync,hashSync} = require('bcrypt')
+const connection = require('../configs/db')
 
 module.exports = {
     getUsers : (req,res)=> {
@@ -18,32 +19,63 @@ module.exports = {
     insertUsers : (req,res) => {        
         const {
             fullname,
+            username,
             email,
             phone_number,
-            address,
-            id_card,
-            type,
-            username,
+            // address,
+            // id_card,
             password
         } = req.body;
         const data = {
             fullname,
+            username,
             email,
             phone_number,
-            address,
-            id_card,
-            type,
-            username,
             password,
-            token
+            photo: 'https://cdn.clipart.email/b2f7a538d5d324b85f87c30fff789114_user-icon-clipart_600-600.svg',
+            status : 0,
+            // address,
+            // id_card,
+            type: 'user',
         }
         const salt = genSaltSync(10)
         data.password = hashSync(data.password,salt)
         usersModel.insertUsers(data)
         .then((result)=> {
-            helpers.response(res,result,200);
+            result.email = data.email
+            const resultNew = result
+            const token = jwt.sign({id: result.insertId,email: result.email},process.env.SECRET_KEY)
+            resultNew.token = token
+            const transporter = nodeMailer.
+            createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD
+                }
+            })
+            const mailFrom = {
+                from: process.env.EMAIL,
+                to: 'sulfikardi25@gmail.com',
+                subject: 'Registrasi Akun',
+                html: '<p>Click<a href="http://localhost:8080/auth/?activated=' + token+'">here</a></p>'
+            }
+            transporter.sendMail(mailFrom, (err,info)=> {
+                if(err){
+                    res.send('Email Activation Failed!')
+                }else {
+                    const result = {
+                        token: tokenactivate,
+                        status: 'success'
+                    }
+                    helpers.response(res,result,200);
+                }
+            })
+            helpers.response(res,resultNew,200, 'Registrer Success Please Check Your Email');
         })
-        .catch(err => console.log(err))
+        .catch(err =>{
+            helpers.response(res,err,201, 'Register Failed')
+        })
     },
     login: (req,res)=> {
         const {
@@ -62,7 +94,7 @@ module.exports = {
             }
             const results = compareSync(data.password,result.password)
             let tokenKu = result.token
-            tokenKu = jwt.sign({email: email}, process.env.SECRET_KEY)
+            tokenKu = jwt.sign({email: result.email}, process.env.SECRET_KEY)
             if(results) {
                 // result.password = undefined
                 result.token = undefined
@@ -102,7 +134,7 @@ module.exports = {
             email,
             phone_number,
             address,
-            id_card,
+            // id_card,
             username
         } = req.body
         const data = {
@@ -110,7 +142,7 @@ module.exports = {
             email,
             phone_number,
             address,
-            id_card,
+            // id_card,
             username
         }
         usersModel.updateUser(idUser,data)
@@ -133,30 +165,17 @@ module.exports = {
             helpers.response(res,result,403,err)
         })
     },
-    verifyEmail: (req,res) => {
-        const activetoken = req.headers['x-token']
-        const tokenactive = jwt.verify(activetoken,'library')
-        const transporter = nodeMailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASSWORD
-            }
-        })
-
-        const mailOption = {
-            from: 'jaguchiuchiha@gmail.com',
-            to: tokenactive.email,
-            subject: subject,
-            text: 'Success'
+    authtentication: (req,res)=> {
+        const reqtoken = req.query.activated
+        const verify = jwt.verify(reqtoken, process.env.SECRET_KEY)
+        const status = {
+            status: 1
         }
-
-        transporter.sendMail(mailOption, (err)=>{
+        connection.query(`UPDATE user SET status = ${status.status} WHERE id_user = ${verify.id}`, (err,result)=> {
             if(err){
-                res.send('email failed')
-            }else{
-                helpers.response(res,result,200, err)
+                helpers.response(res,err,202,'Failed Activation')
             }
+            helpers.response(res,result,200, 'Success Activation')
         })
     }
 }

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 module.exports = {
     getUsers: ()=> {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM pengguna", (err,result)=> {
+            connection.query("SELECT * FROM user", (err,result)=> {
                 if(!err) {
                     resolve(result)
                 }else {
@@ -15,7 +15,7 @@ module.exports = {
     },
      insertUsers: (data)=> {
         return new Promise((resolve,reject)=> {
-            connection.query("INSERT INTO pengguna SET ?",data,(err,result)=> {
+            connection.query("INSERT INTO user SET ?",data,(err,result)=> {
                 if(!err) {
                     resolve(result)
                 }else {
@@ -26,7 +26,7 @@ module.exports = {
     },
     login: (email)=> {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM pengguna WHERE email = ?",email,(err,result)=> {
+            connection.query("SELECT * FROM user WHERE email = ?",email,(err,result)=> {
                 if(!err){
                     resolve(result[0])
                 }else{
@@ -37,7 +37,7 @@ module.exports = {
     },
     userDetail:(id_user) => {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM pengguna WHERE id_user = ?",id_user, (err,result)=> {
+            connection.query("SELECT * FROM user WHERE id_user = ?",id_user, (err,result)=> {
                 if(!err){
                     resolve(result)
                 }else{
@@ -48,7 +48,7 @@ module.exports = {
     },
     updateUser: (id_user,data) => {
         return new Promise((resolve,reject)=> {
-            connection.query("UPDATE pengguna SET ? WHERE id_user =?",[data,id_user],(err,result)=> {
+            connection.query("UPDATE user SET ? WHERE id_user =?",[data,id_user],(err,result)=> {
                 if(!err){
                     resolve(result)
                 }else {
@@ -59,7 +59,7 @@ module.exports = {
     },
     deleteUser: (id_user)=> {
         return new Promise((resolve,reject)=> {
-            connection.query("DELETE FROM pengguna WHERE id_user = ?",id_user, (err,result)=> {
+            connection.query("DELETE FROM user WHERE id_user = ?",id_user, (err,result)=> {
                 if(!err) {
                     resolve(result)
                 }else{

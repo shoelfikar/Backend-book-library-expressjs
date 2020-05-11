@@ -7,12 +7,12 @@ module.exports = {
         const {
             id_user,
             book_id,
-            status
+            // status
         } = req.body
         const data = {
             id_user,
             book_id,
-            status
+            status: 'active'
         }
         loanModel.insertLoan(data)
         .then((result)=> {
@@ -41,7 +41,7 @@ module.exports = {
             helper.response(res,result,200,[idLoan,data])
         })
         .catch((err)=> {
-            helper.response(res,result,404,err)
+            helper.response(res,null,404,err)
         })
     },
     getLoan: (erq,res)=> {
@@ -50,7 +50,7 @@ module.exports = {
             helper.response(res,result,200)
         })
         .catch((err)=> {
-            helper.response(res,result,404,err)
+            helper.response(res,null,404,err)
         })
     },
     detailLoan: (req,res)=> {
@@ -60,7 +60,7 @@ module.exports = {
              helper.response(res,result,200)
         })
         .catch((err)=> {
-            helper.response(res,result,404,err)
+            helper.response(res,null,404,err)
         })
     },
     deleteLoan: (req,res)=> {

@@ -6,10 +6,9 @@ const redis = require('redis');
 const client = redis.createClient(process.env.PORT_REDIS)
 
 module.exports = {
-    getBook: (req,res)=> {
+   getBook:(req,res)=>{ 
         const page = req.query.page
         const search = req.query.search
-        
         !page
          ?bookModel
             .getBook(search)
@@ -23,17 +22,16 @@ module.exports = {
             })
          :conn.query("SELECT COUNT(*) as total FROM book_data", (err, result)=> {
             const total = result[0].total;
-            bookModel.getPage(page, total)
-            .then((result)=> {
-                if(page > 0 ) {
-                    helpers.response(res,result, 200)
-                }else {
-                    helpers.response(res, {}, res.status,404)
-                }
-            })
-            .catch((err)=> {
-                helpers.response(res, {}, res.status,err,404)
-            })
+            if(page > 0) {
+                bookModel
+                .getPage(page,total)
+                .then(result => {
+                    helpers.response(res,result, 200) 
+                })
+                .catch(err => {
+                    helpers.response(res, {}, res.status,err,404)
+                })
+            }
         })
     },
     bookDetail : (req,res)=> {
@@ -50,8 +48,8 @@ module.exports = {
         
         const sort = req.query.sort
         bookModel.sortBook(sort)
-        .then((resultBook)=> {
-            const result = resultBook
+        .then((result)=> {
+            // const result = resultBook
             helpers.response(res,result, 200);
         })
         .catch((err)=> {
