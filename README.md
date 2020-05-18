@@ -15,8 +15,8 @@
 ## Installation
 ### Clone
 ```
-$ git clone https://github.com/m-joseph27/Library-API.git
-$ cd library-API
+$ git clone https://github.com/shoelfikar/Backend-book-library-expressjs.git
+$ cd Backend-book-library-expressjs
 $ npm install
 ```
 
@@ -48,7 +48,7 @@ PORT_REDIS=YOUR_PORT_REDIS / default => 6379
 
 ### Start Development Server
 ```
-$ npm run serve
+$ npm start
 ```
 ## Link Collection Postman
 [Postman](https://www.getpostman.com/collections/5a776822917b6c04128a)
