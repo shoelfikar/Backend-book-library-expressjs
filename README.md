@@ -2,7 +2,7 @@
 ---
 
 
-![abcd](https://img.shields.io/badge/Code%20Style-Standard-green) ![abcgd](https://img.shields.io/badge/Dependencies-Express-brightgreen)
+![abcd](https://img.shields.io/badge/Code%20Style-Standard-green) ![abcgd](https://img.shields.io/badge/Dependencies-Express-brightgreen)[![Release Version](https://img.shields.io/badge/release-v.1.0-blue)](https://github.com/HiRahmat-Dev/library-api/releases/tag/1.0) [![Node JS](https://img.shields.io/badge/Dependencies-Express%20JS-green)](https://nodejs.org/en/)
 
 
 
