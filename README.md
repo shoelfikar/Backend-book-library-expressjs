@@ -86,6 +86,21 @@ $ npm start
   Membuat REST API untuk perpustakaan online menggunakan express js
 
 
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated.
+
+Fork the Project
+1. Create your Feature Branch  ```git checkout -b [feature]```
+2. Commit your Changes ```git commit -m 'Add some feature'```
+3. Push to the Branch ```git push origin [feature]```
+4. Open a Pull Request
+
+## Related Project
+
+* [`Frontend-mylibrary-online-vuejs`](https://github.com/shoelfikar/Frontend-mylibrary-online-vuejs)
+* [`Backend-book-library-expressjs`](https://github.com/shoelfikar/Backend-book-library-expressjs)
+
 
 
 ---
