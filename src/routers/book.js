@@ -36,7 +36,7 @@ const upload = multer({
 Router
     .get('/',dataController.getBook)
     .get('/:id_book',dataController.bookDetail)
-    .get('/', dataController.sortBook)
+    .get('/sort/:sort', dataController.sortBook)
     .post('/',upload.single('image'),dataController.insertBook)
     .patch('/:id_book',dataController.updateBook)
     .delete('/:id_book',dataController.deleteBook)

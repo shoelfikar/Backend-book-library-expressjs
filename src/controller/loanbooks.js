@@ -44,7 +44,7 @@ module.exports = {
             helper.response(res,null,404,err)
         })
     },
-    getLoan: (erq,res)=> {
+    getLoan: (req,res)=> {
         loanModel.getLoan()
         .then((result)=> {
             helper.response(res,result,200)

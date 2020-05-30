@@ -25,7 +25,7 @@ module.exports = {
     },
     getLoan: ()=> {
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT loan_books.*, user.fullname,user.phone_number,user.address,user.id_card, book_data.isbn,book_data.book_title,book_data.author FROM loan_books INNER JOIN user ON loan_books.id_user = user.id_user INNER JOIN book_data ON loan_books.book_id = book_data.book_id", (err,result)=> {
+            connection.query("SELECT loan_books.*, user.fullname,user.phone_number,user.email,user.username, book_data.book_title, book_data.author, book_data.isbn FROM loan_books INNER JOIN user on loan_books.id_user = user.id_user INNER JOIN book_data on loan_books.book_id = book_data.book_id WHERE loan_books.id_loan ORDER BY loan_books.id_loan", (err,result)=> {
                 if(!err){
                     resolve(result)
                 }else{

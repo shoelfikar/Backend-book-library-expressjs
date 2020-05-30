@@ -36,15 +36,17 @@ module.exports = {
                 })
         })
     },
-    sortBook : (sort)=> {
+    sortBook:(sort)=>{
         return new Promise((resolve,reject)=> {
-            connection.query("SELECT * FROM book_data ORDER BY = ?" + sort + "DESC",(err,result)=>{
-                if(!err){
-                    resolve(result)
-                }else{
-                    reject(new Error(err))
+            connection.query(
+                `SELECT * FROM book_data ORDER BY ${sort} ASC`, (err,result)=> {
+                    if(!err){
+                        resolve(result)
+                    }else{
+                        reject(new Error(err))
+                    }
                 }
-            })
+            )
         })
     },
     insertBook: (data)=> {

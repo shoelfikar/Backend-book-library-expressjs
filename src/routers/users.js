@@ -13,8 +13,8 @@ Router
     .get('/auth', usersController.authtentication)
     .post('/login',usersController.login)
     .get('/:id_user',usersController.userDetail)
-    .patch('/:id_user',usersController.updateUser)
     .delete('/:id_user',usersController.deleteUser)
+    .patch('/:id_user',usersController.updateUser)
 
 
 

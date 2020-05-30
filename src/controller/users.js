@@ -30,7 +30,7 @@ module.exports = {
             fullname,
             username,
             email,
-            phone_number,
+            // phone_number,
             password,
             photo: 'https://cdn.clipart.email/b2f7a538d5d324b85f87c30fff789114_user-icon-clipart_600-600.svg',
             status : 0,
@@ -146,12 +146,12 @@ module.exports = {
             username
         }
         usersModel.updateUser(idUser,data)
-        .then((resultUser)=> {
-            const result = resultUser
-            helpers.response(res,result,200,[idUser,data])
+        .then((result)=> {
+            // const result = resultUser
+            helpers.response(res,result,200)
         })
         .catch((err)=> {
-            helpers.response(res,results,404,err)
+            helpers.response(res,err,404)
         })
     },
     deleteUser: (req,res)=> {

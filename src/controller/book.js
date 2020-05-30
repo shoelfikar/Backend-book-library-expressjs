@@ -44,16 +44,18 @@ module.exports = {
             console.log(response);
         })
     },
-    sortBook : (req,res)=> {
-        
-        const sort = req.query.sort
+    sortBook:(req,res)=>{
+        const sort = req.params.sort
         bookModel.sortBook(sort)
-        .then((result)=> {
-            // const result = resultBook
-            helpers.response(res,result, 200);
+        .then((result)=>{
+            if(sort > 0){
+                helpers.response(res,err,404,'Keyword yang anda masukkan tidak sesuai') 
+            }else{
+                helpers.response(res,result,200,`Sort Data Berdasarkan ${sort}`)
+            }
         })
-        .catch((err)=> {
-           helpers.response(res, {}, res.status,404,err)
+        .catch((err)=>{
+            helpers.response(res,err,404,'Keyword yang anda masukkan tidak sesuai')
         })
     },
     insertBook : (req,res)=> {
