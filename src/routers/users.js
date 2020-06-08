@@ -1,5 +1,4 @@
 const express = require('express')
-const bcrypt = require('bcrypt')
 const Router = express.Router()
 const usersController = require('../controller/users')
 

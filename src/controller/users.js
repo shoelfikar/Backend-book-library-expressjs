@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const usersModel = require('../models/users');
 const helpers = require('../helpers/helpers');
 const nodeMailer = require('nodemailer')
-const {genSaltSync,compareSync,hashSync} = require('bcrypt')
+const {genSaltSync,compareSync,hashSync} = require('bcryptjs')
 const connection = require('../configs/db')
 
 module.exports = {
